@@ -62,6 +62,7 @@
 
 // standard includes
 #include <cstring>
+#include <algorithm>
 
 //####################################################################
 namespace {
@@ -100,6 +101,10 @@ void Netxx::StreamBase::make_connection (Socket &socket, const Address &address)
 	error += message;
 	throw Exception(error);
     }
+}
+//####################################################################
+void Netxx::StreamBase::swap_base (StreamBase &other) {
+    std::swap(timeout_, other.timeout_);
 }
 //####################################################################
 void Netxx::StreamBase::set_timeout (const Timeout &timeout) {
@@ -160,8 +165,30 @@ namespace {
 	    Netxx::error_type error_code = Netxx::get_last_error();
 
 	    if (error_code == EINPROGRESS || error_code == EWOULDBLOCK || error_code == EINTR) {
-		message = "timeout";
-		return socket.writeable(timeout);
+		if (!socket.readable_or_writable(timeout)) {
+		    message = "connection timed out";
+		    return false;
+		}
+
+
+#		if defined(__APPLE__)
+		    int so_error, so_return;
+		    int so_len(sizeof(so_error));
+#		elif defined(WIN32)
+		    char so_error;
+		    int so_return;
+		    int so_len(sizeof(so_error));
+#		else
+		    int so_error, so_return;
+		    socklen_t so_len(sizeof(so_error));
+#		endif
+
+		if ( (so_return = getsockopt(socket.get_socketfd(), SOL_SOCKET, SO_ERROR, &so_error, &so_len)) < 0) {
+		    message = strerror(so_error);
+		    return false;
+		}
+
+		return true;
 	    }
 
 	    message = strerror(error_code);

@@ -46,8 +46,8 @@
 #include <exception>
 
 int main (int argc, char *argv[]) {
-    if (argc != 2) {
-	std::cout << "Usage: " << argv[0] << " URI\n";
+    if (argc != 2 && argc != 3) {
+	std::cout << "Usage: " << argv[0] << " URI [Host: header]\n";
 	return 0;
     }
 
@@ -66,9 +66,13 @@ int main (int argc, char *argv[]) {
 	// setup the request line and headers
 	request += " HTTP/1.0";
 	request += 13; request += 10;
+
+	// send the Host header
 	request += "Host: ";
-	request += addr.get_name();
+	if (argc == 3) request += argv[2];
+	else request += addr.get_name();
 	request += 13; request += 10;
+
 	request += "Connection: close";
 	request += 13; request += 10;
 	request += 13; request += 10;

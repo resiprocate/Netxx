@@ -147,7 +147,7 @@ protected:
      * @param password The string to store the password in.
      * @param encrypting True if the password is needed for encrypting; flase for decrypting
      * @return True for success
-     * @reutrn False for failure
+     * @return False for failure
      * @author Peter Jones
     **/
     //####################################################################

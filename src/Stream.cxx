@@ -44,11 +44,13 @@
 
 // standard includes
 #include <memory>
+#include <algorithm>
 
 //####################################################################
 struct Netxx::Stream::pimpl {
     pimpl (void) {}
-    pimpl (socket_type socketfd) : socket_(socketfd) {}
+    explicit pimpl (socket_type socketfd) : socket_(socketfd) {}
+    pimpl (const pimpl &other) : socket_(other.socket_), pi_(other.pi_) {}
 
     Socket socket_;
     ProbeInfo pi_;
@@ -85,6 +87,25 @@ Netxx::Stream::Stream (const char *uri, port_type default_port, const Timeout &t
     pimpl_->pi_.add_socket(pimpl_->socket_.get_socketfd());
 
     ap.release();
+}
+//####################################################################
+Netxx::Stream::Stream (const Stream &other)
+    : StreamBase(other.get_timeout())
+{
+    pimpl_ = new pimpl(*(other.pimpl_));
+}
+//####################################################################
+Netxx::Stream& Netxx::Stream::operator= (const Stream &other) {
+    Stream tmp(other);
+    swap(tmp);
+
+    return *this;
+}
+//####################################################################
+void Netxx::Stream::swap (Stream &other) {
+    pimpl_->socket_.swap(other.pimpl_->socket_);
+    pimpl_->pi_.swap(other.pimpl_->pi_);
+    swap_base(other);
 }
 //####################################################################
 Netxx::Stream::~Stream (void) {

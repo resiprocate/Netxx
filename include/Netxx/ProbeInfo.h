@@ -104,6 +104,40 @@ public:
 
     //####################################################################
     /** 
+     * Copy constructor.
+     *
+     * @param other The ProbeInfo to copy from.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    ProbeInfo (const ProbeInfo &other)
+	: sockets_(other.sockets_) { }
+
+    //####################################################################
+    /** 
+     * Assignment operator.
+     *
+     * @param other The ProbeInfo to copy from.
+     * @return *this.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    ProbeInfo& operator= (const ProbeInfo &other)
+    { ProbeInfo tmp(other); swap(tmp); return *this; }
+
+    //####################################################################
+    /** 
+     * Swap this ProbeInfo for another.
+     *
+     * @param other The ProbeInfo to swap with.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    void swap (ProbeInfo &other)
+    { sockets_.swap(other.sockets_); }
+
+    //####################################################################
+    /** 
      * Class destructor.
      *
      * @author Peter Jones
@@ -175,8 +209,7 @@ public:
     { return pending_none; }
 private:
     std::vector<socket_type> sockets_;
-    ProbeInfo (const ProbeInfo&);
-    ProbeInfo& operator= (const ProbeInfo&);
+
 }; // end ProbeInfo class
 
 } // end Netxx namespace

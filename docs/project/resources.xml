@@ -6,11 +6,11 @@
 >
     <section title="Mailing Lists">
 	<item title="Announcements" link="http://pmade.org/mailman/listinfo/netxx-announce">
-	    Very quiet, mostly release announcements.
+	    Very quiet, mostly release announcements. [<l:ulink href="http://pmade.org/pipermail/netxx-announce/">archive</l:ulink>]
 	</item>
 
 	<item title="Users and Developers" link="http://pmade.org/mailman/listinfo/netxx-users">
-	    Questions, comments, stories? This is the place.
+	    Questions, comments, stories? This is the place. [<l:ulink href="http://pmade.org/pipermail/netxx-users/">archive</l:ulink>]
 	</item>
     </section>
 
@@ -31,7 +31,7 @@
 	    Doxygen generated API documentation
 	</item>
 
-	<item title="Download API Reference" link="download/documentation/Netxx-api.tar.gz">
+	<item title="Download API Reference" link="download/documentation/netxx-api.tar.gz">
 	    Tarball with doxygen generated API documentation
 	</item>
     </section>
@@ -91,38 +91,7 @@
     </section>
 
     <section title="Anonymous CVS Access">
-	<text>
-	    <para>
-		It is possible to checkout the source code for Netxx using an
-		anonymous cvs account. First, login using the anonymous username.
-	    </para>
-
-	    <para>
-		<format:monospace>&#160;&#160;&#160;&#160;cvs -d :pserver:anonymous@pmade.org:/webcvs login</format:monospace>
-	    </para>
-
-	    <para>
-		Although you will be prompted for a password, this anonymous
-		account does not have one. You should just press enter. Then
-		you can checkout Netxx.
-	    </para>
-
-	    <para>
-		<format:monospace>&#160;&#160;&#160;&#160;cvs -d :pserver:anonymous@pmade.org:/webcvs co Netxx</format:monospace>
-	    </para>
-
-	    <para>
-		Since all development is done on a branch, you might want to use
-		the <l:ulink href="http://pmade.org/cvs/viewcvs.cgi/Netxx/">cvs web interface</l:ulink>
-		to find the branch you want to checkout. For example, to
-		checkout branch <format:monospace>BRN-0_3_1</format:monospace>
-		you would use the following command.
-	    </para>
-
-	    <para>
-		<format:monospace>&#160;&#160;&#160;&#160;cvs -d :pserver:anonymous@pmade.org:/webcvs co -r BRN-0_3_0 Netxx</format:monospace>
-	    </para>
-	</text>
+	<anoncvs/>
     </section>
 
     <section title="Similar Projects">

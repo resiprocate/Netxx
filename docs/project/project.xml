@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <project xmlns="http://pmade.org/xmlns/project-main" name="Netxx">
     <variables>
-	<variable name="download-source"    value="Netxx-0.3.0.tar.gz"/>
+	<variable name="download-source"    value="Netxx-0.3.2.tar.gz"/>
 	<variable name="logo-image"	    value="netxx-logo.jpg"/>
 	<variable name="email-address"	    value="netxx@pmade.org"/>
 	<variable name="website"	    value="http://pmade.org/pjones/software/netxx/"/>
+	<variable name="sourceforge"	    value="http://sourceforge.net/projects/netxx/"/>
+	<variable name="sfid"		    value="78329"/>
     </variables>
 
     <description>

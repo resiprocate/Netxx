@@ -172,7 +172,21 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    bool writeable (const Timeout &timeout);
+    bool writable (const Timeout &timeout);
+
+    //####################################################################
+    /** 
+     * Check to see if a socket can be read from or written to. If you give
+     * a timeout value then this method will not block longer then the
+     * timeout.
+     *
+     * @param timeout How long to wait for the socket to become writable.
+     * @return True if you can read from or write to the socket.
+     * @reutrn False if there is a timeout.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    bool readable_or_writable (const Timeout &timeout);
 
     //####################################################################
     /** 
@@ -242,8 +256,6 @@ public:
     bool operator< (socket_type socketfd) const;
 private:
     socket_type socketfd_;
-    bool closed_;
-    bool released_;
     bool probe_ready_;
     bool type_ready_;
     Probe_impl probe_;

@@ -203,7 +203,7 @@ Netxx::signed_size_type Netxx::Datagram::send (const Peer &peer, const void *buf
 	call_bind(pimpl_->socket_, pimpl_->files_);
     }
 
-    if (pimpl_->timeout_ && !pimpl_->socket_.writeable(pimpl_->timeout_))
+    if (pimpl_->timeout_ && !pimpl_->socket_.writable(pimpl_->timeout_))
 	return -1;
 
     signed_size_type rc;

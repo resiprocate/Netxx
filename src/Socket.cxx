@@ -68,7 +68,7 @@ namespace {
 }
 //####################################################################
 Netxx::Socket::Socket (void)
-    : socketfd_(-1), closed_(false), released_(true), probe_ready_(false), type_ready_(false)
+    : socketfd_(-1), probe_ready_(false), type_ready_(false)
 {
 #   if defined(WIN32)
 	WSADATA wsdata;
@@ -80,7 +80,7 @@ Netxx::Socket::Socket (void)
 }
 //####################################################################
 Netxx::Socket::Socket (Type type)
-    : socketfd_(-1), closed_(false), released_(false), probe_ready_(false), type_ready_(true), type_(type)
+    : socketfd_(-1), probe_ready_(false), type_ready_(true), type_(type)
 {
 #   if defined(WIN32)
 	WSADATA wsdata;
@@ -105,7 +105,7 @@ Netxx::Socket::Socket (Type type)
 }
 //####################################################################
 Netxx::Socket::Socket (int socketfd)
-    : socketfd_(socketfd), closed_(false), released_(false), probe_ready_(false), type_ready_(false)
+    : socketfd_(socketfd), probe_ready_(false), type_ready_(false)
 {
 #   if defined(WIN32)
 	WSADATA wsdata;
@@ -117,9 +117,9 @@ Netxx::Socket::Socket (int socketfd)
 }
 //####################################################################
 Netxx::Socket::Socket (const Socket &other) 
-    : closed_(false), released_(false), probe_ready_(false), type_ready_(other.type_ready_), type_(other.type_)
+    : probe_ready_(false), type_ready_(other.type_ready_), type_(other.type_)
 {
-    if (!other.closed_ && !other.released_) {
+    if (other.socketfd_ != -1) {
 	socket_type dup_socket;
 
 #	if defined(WIN32)
@@ -153,7 +153,6 @@ Netxx::Socket::Socket (const Socket &other)
 	socketfd_ = dup_socket;
     } else {
 	socketfd_ = -1;
-	closed_ = released_ = true;
     }
 }
 //####################################################################
@@ -164,7 +163,6 @@ Netxx::Socket& Netxx::Socket::operator= (const Socket &other) {
 //####################################################################
 void Netxx::Socket::swap (Socket &other) {
     std::swap(socketfd_, other.socketfd_);
-    std::swap(closed_, other.closed_);
     std::swap(type_ready_, other.type_ready_);
     std::swap(type_, other.type_);
 
@@ -185,7 +183,7 @@ Netxx::signed_size_type Netxx::Socket::write (const void *buffer, size_type leng
     signed_size_type rc, bytes_written=0;
 
     while (length) {
-	if (timeout && !writeable(timeout)) return -1;
+	if (timeout && !writable(timeout)) return -1;
 
 	if ( (rc = send(socketfd_, buffer_ptr, length, 0)) < 0) {
 	    error_type error_code = get_last_error();
@@ -293,7 +291,7 @@ bool Netxx::Socket::readable (const Timeout &timeout) {
     return true;
 }
 //####################################################################
-bool Netxx::Socket::writeable (const Timeout &timeout) {
+bool Netxx::Socket::writable (const Timeout &timeout) {
     if (!probe_ready_) {
 	probe_.add(socketfd_);
 	probe_ready_ = true;
@@ -304,20 +302,31 @@ bool Netxx::Socket::writeable (const Timeout &timeout) {
     return true;
 }
 //####################################################################
+bool Netxx::Socket::readable_or_writable (const Timeout &timeout) {
+    if (!probe_ready_) {
+	probe_.add(socketfd_);
+	probe_ready_ = true;
+    }
+
+    Probe_impl::probe_type pt = probe_.probe(timeout, Probe::ready_read|Probe::ready_write);
+    if (pt.empty()) return false;
+    return true;
+}
+//####################################################################
 void Netxx::Socket::close (void) {
-    if (!closed_ && !released_) {
+    if (socketfd_ != -1) {
 #	if defined(WIN32)
 	    closesocket(socketfd_);
 #	else
 	    ::close(socketfd_);
 #	endif
 
-	closed_ = true;
+	socketfd_ = -1;
     }
 }
 //####################################################################
 void Netxx::Socket::release (void) {
-    released_ = true;
+  socketfd_ = -1;
 }
 //####################################################################
 Netxx::Socket::Type Netxx::Socket::get_type (void) const {
@@ -331,13 +340,13 @@ int Netxx::Socket::get_socketfd (void) const {
 //####################################################################
 void Netxx::Socket::set_socketfd (socket_type socketfd) {
     close();
-    probe_ready_ = closed_ = released_ = false;
+    probe_ready_ = false;
     socketfd_ = socketfd;
     probe_.clear();
 }
 //####################################################################
 bool Netxx::Socket::operator! (void) const {
-    return socketfd_ == -1 || released_ == true || closed_ == true;
+    return socketfd_ == -1;
 }
 //####################################################################
 bool Netxx::Socket::operator< (const Socket &other) const {

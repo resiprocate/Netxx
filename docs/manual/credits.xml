@@ -36,6 +36,17 @@
 	<!--#########################################################################################-->
 	<listitem>
 	    <para>
+		Steve Bannister
+	    </para>
+
+	    <itemizedlist>
+		<listitem><para>Found and fixed a bug in the Netxx::Socket class.</para></listitem>
+		<listitem><para>Found a bug in the Netxx::StreamBase class relating to non-blocking connects.</para></listitem>
+	    </itemizedlist>
+	</listitem>
+	<!--#########################################################################################-->
+	<listitem>
+	    <para>
 		<ulink url="http://pmade.org/cgi-bin/people.cgi?p=if">Isaac Foraker</ulink>
 	    </para>
 

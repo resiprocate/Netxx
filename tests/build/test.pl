@@ -47,7 +47,7 @@ use Getopt::Long;
 #
 ################################################################################
 use constant DATE		=> 'Mon Jul 23 17:38:36 2001';
-use constant ID			=> '$Id: test.pl,v 1.12 2003/01/13 17:01:25 pjones Exp $';
+use constant ID			=> '$Id: test.pl,v 1.13 2003/07/08 19:24:16 pjones Exp $';
 ################################################################################
 #
 # Global Variables
@@ -67,6 +67,7 @@ my $no_openssl_message = <<EOT;
 EOT
 
 my @files_to_unlink;
+my $use_socket_lib=0;
 my %clo;
 
 ################################################################################
@@ -132,6 +133,7 @@ if (compile("socket.cxx", 0, $ENV{'LDFLAGS'})) {
     if (compile("socket.cxx", 0, "$ENV{'LDFLAGS'} -lsocket -lnsl")) {
 	print "yes\n";
 	print CF "libsocket = yes\n";
+	$use_socket_lib=1;
     } else {
 	print "error\n";
 	print "*** I can't seem to link a socket program!\n";
@@ -162,6 +164,7 @@ if ($clo{'enable-tls'}) {
     }
 
     $extra .= " -lssl -lcrypto ";
+    $extra .= " -lsocket -lnsl " if $use_socket_lib;
 
     if (compile("openssl.cxx", 0, $extra)) {
 	print "yes\n";

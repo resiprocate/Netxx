@@ -1,5 +1,19 @@
 <?xml version="1.0"?>
-<news xmlns="http://pmade.org/xmlns/project-news">
+<news xmlns="http://pmade.org/xmlns/project-news" xmlns:l="http://pmade.org/xmlns/project-linking">
+    <entry title="Version 0.3.2 Released" year="2003" month="07" day="08">
+	<para>
+	    Thanks to the work of volunteers, Netxx version 0.3.2 has been
+	    released. This version fixed a few major and minor bugs.
+	</para>
+    </entry>
+
+    <entry title="Netxx on SourceForge" year="2003" month="04" day="08">
+	<para>
+	    Netxx now has a <l:ulink href="http://sourceforge.net/projects/netxx/">project page on SourceForge.net</l:ulink>.
+	    Please take some time to review the site and volunteer to fix some bugs.
+	</para>
+    </entry>
+
     <entry title="Version 0.3.1 Released" year="2003" month="01" day="13">
 	<para>
 	    Version 0.3.1 is a bug fix release. A few exception safety

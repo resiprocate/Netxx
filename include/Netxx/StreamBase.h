@@ -168,6 +168,17 @@ protected:
     **/
     //####################################################################
     void make_connection (Socket &socket, const Address &address);
+
+    //####################################################################
+    /** 
+     * Used by the stream classes so they can implement a swap() member
+     * function.
+     *
+     * @param other The other StreamBase to swap with.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    void swap_base (StreamBase &other);
 private:
     Timeout timeout_;
 }; // end Netxx::StreamBase class

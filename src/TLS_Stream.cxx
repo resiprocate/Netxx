@@ -121,7 +121,7 @@ Netxx::signed_size_type Netxx::TLS::Stream::write (const void *buffer, size_type
     const char *cbuffer = static_cast<const char*>(buffer);
     signed_size_type rc;
 
-    if (get_timeout() && !pimpl_->socket_.writeable(get_timeout())) return -1;
+    if (get_timeout() && !pimpl_->socket_.writable(get_timeout())) return -1;
 
     for (;;) {
 	rc = SSL_write(pimpl_->openssl_ssl_, cbuffer, length);
@@ -133,7 +133,7 @@ Netxx::signed_size_type Netxx::TLS::Stream::write (const void *buffer, size_type
 		return 0;
 
 	    case SSL_ERROR_WANT_WRITE:
-		if (!pimpl_->socket_.writeable(get_timeout())) return -1;
+		if (!pimpl_->socket_.writable(get_timeout())) return -1;
 		break;
 
 	    case SSL_ERROR_WANT_READ:
@@ -165,7 +165,7 @@ Netxx::signed_size_type Netxx::TLS::Stream::read (void *buffer, size_type length
 		return 0;
 
 	    case SSL_ERROR_WANT_WRITE:
-		if (!pimpl_->socket_.writeable(get_timeout())) return -1;
+		if (!pimpl_->socket_.writable(get_timeout())) return -1;
 		break;
 
 	    case SSL_ERROR_WANT_READ:
@@ -255,7 +255,7 @@ namespace {
 		    continue;
 
 		case SSL_ERROR_WANT_WRITE:
-		    if (!pimpl->socket_.writeable(timeout)) {
+		    if (!pimpl->socket_.writable(timeout)) {
 			throw Netxx::Exception("timeout during TLS connection handshake");
 		    }
 		    continue;
@@ -286,7 +286,7 @@ namespace {
 		    continue;
 
 		case SSL_ERROR_WANT_WRITE:
-		    if (!pimpl->socket_.writeable(timeout)) {
+		    if (!pimpl->socket_.writable(timeout)) {
 			throw Netxx::Exception("timeout during TLS accept handshake");
 		    }
 		    continue;

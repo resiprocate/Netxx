@@ -67,6 +67,7 @@ public:
      * @param addr The string form of the peer's address
      * @param port The peer's port.
      * @param saddr The peer address struct.
+     * @param saddr_size The size of saddr.
      * @author Peter Jones
     **/
     //####################################################################

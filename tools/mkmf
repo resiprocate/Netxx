@@ -50,7 +50,7 @@ use Getopt::Long;
 #
 ################################################################################
 use constant DATE		=> 'Tue May  8 22:21:39 2001';
-use constant ID			=> '$Id: mkmf,v 1.15.2.7 2002/11/06 05:21:52 pjones Exp $';
+use constant ID			=> '$Id: mkmf,v 1.15.2.11 2003/06/20 17:09:26 pjones Exp $';
 ################################################################################
 #
 # Global Variables
@@ -242,7 +242,7 @@ foreach (@{$clo{'linkwith'}}) {
 }
 
 foreach (@{$clo{'include'}}) {
-    addflags($ENV{'CXXFLAGS'}, "-I'$_'");
+    addflags($ENV{'CXXFLAGS'}, "-I$_");
 }
 
 if (!$clo{'static-lib'} && !$clo{'shared-lib'} && !$clo{'many-exec'} && !$clo{'one-exec'} && !$clo{'wrapper'}) {
@@ -473,6 +473,7 @@ if ($clo{'install'} and $^O !~ /mswin/) {
     );
 
     my @binaries;
+    my @pkgconfig;
     my @include_files;
     my @include_dirs;
     my @static_libraries;
@@ -494,7 +495,7 @@ if ($clo{'install'} and $^O !~ /mswin/) {
 	    }
 
 	    $vars{$key} = $value;
-	} elsif (/^include-dir\s+([^\s]+)\s+([^\s]+)$/) {
+	} elsif (/^include-dir\s+(\S+)\s+(\S+)$/) {
 	    if (! -d $1) {
 		print STDERR "$0: warning, $1 is not a directory.\n";
 		print STDERR "$0: from $clo{'install'}:$.\n";
@@ -502,7 +503,7 @@ if ($clo{'install'} and $^O !~ /mswin/) {
 	    }
 
 	    push(@include_dirs, [$1, $2]);
-	} elsif (/^include-files?\s+([^\s]+)$/) {
+	} elsif (/^include-files?\s+(\S+)$/) {
 	    my @files = glob($1);
 
 	    if (!@files) {
@@ -516,12 +517,14 @@ if ($clo{'install'} and $^O !~ /mswin/) {
 	    for (my $i=0; $i<@files; ++$i) {
 		push(@include_files, [$files[$i], $names[$i]]);
 	    }
-	} elsif (/^binary\s+([^\s]+)$/) {
+	} elsif (/^binary\s+(\S+)$/) {
 	    my ($full, $base) = ($1, $1);
 	    $base =~ s(^.*/)();
 
 	    push(@binaries, [$full, $base]);
-	} elsif (/^(static-lib|shared-lib)\s+([^\s]+)\s+([^\s]+)\s*(\d+)?$/) {
+	} elsif (/^pkgconfig\s+(\S+)$/) {
+	    push(@pkgconfig, $1);
+	} elsif (/^(static-lib|shared-lib)\s+(\S+)\s+(\S+)\s*(\d+)?$/) {
 	    if (! -d $2) {
 		print STDERR "$0: first option to $1 should be a directory.\n";
 		print STDERR "$0: $2 is not a directory.\n";
@@ -555,11 +558,17 @@ if ($clo{'install'} and $^O !~ /mswin/) {
 	print MF "\tmkdir -p $vars{'BINDIR'}\n" if @binaries;
 	print MF "\tmkdir -p $vars{'INCLUDEDIR'}\n" if @include_files or @include_dirs;
 	print MF "\tmkdir -p $vars{'LIBDIR'}\n" if @static_libraries or @shared_libraries;
+	print MF "\tmkdir -p $vars{'LIBDIR'}/pkgconfig\n" if @pkgconfig;
 	print MF "\tmkdir -p $vars{'MANDIR'}\n" if @man_pages;
 
 	foreach my $binary (@binaries) {
 	    print MF "\tcp $binary->[0] $vars{'BINDIR'}/$binary->[1]\n";
 	    print MF "\tchmod 755 $vars{'BINDIR'}/$binary->[1]\n";
+	}
+
+	foreach my $pc (@pkgconfig) {
+	    print MF "\tcp $pc $vars{'LIBDIR'}/pkgconfig/$pc\n";
+	    print MF "\tchmod 644 $vars{'LIBDIR'}/pkgconfig/$pc\n";
 	}
 
 	foreach my $directory (@include_dirs) {

@@ -165,7 +165,7 @@ Netxx::port_type Netxx::Peer::get_local_port (void) const {
     } sau;
 
 
-#   if defined(WIN32) || defined(__APPLE__)
+#   if defined(WIN32) || defined(__APPLE__) || defined(__CYGWIN__)
 	int *sa_size_ptr = reinterpret_cast<int*>(&sa_size);
 #   else
 	size_type *sa_size_ptr = &sa_size;

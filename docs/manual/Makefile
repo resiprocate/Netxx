@@ -33,7 +33,7 @@ CATALOGS+=		-c ${PREFIX}/share/sgml/openjade/catalog
 .else
 CATALOGS+=		-c ${PREFIX}/share/sgml/docbook/dsssl/modular/catalog
 CATALOGS+=		-c ${PREFIX}/share/sgml/iso8879/catalog
-CATALOGS+=		-c ${PREFIX}/share/sgml/docbook/catalog
+CATALOGS+=		-c ${PREFIX}/share/sgml/docbook/4.1/catalog
 CATALOGS+=		-c ${PREFIX}/share/sgml/openjade/catalog
 .endif
 

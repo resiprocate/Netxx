@@ -20,6 +20,7 @@
 		<compiler name="GCC 3.0.4"  	     status="Supported"/>
 		<compiler name="GCC 3.1.1"    	     status="Supported"/>
 		<compiler name="GCC 3.2.1"    	     status="Supported"/>
+		<compiler name="GCC 3.3"	     status="Supported"/>
 	    </os>
 
 	    <os name="Linux (RedHat, Debian)" hardware="IA32" version="N/A">
@@ -33,6 +34,7 @@
 		<compiler name="GCC 3.0.4"	    status="Supported"/>
 		<compiler name="GCC 3.1.1"	    status="Supported"/>
 		<compiler name="GCC 3.2"	    status="Supported"/>
+		<compiler name="GCC 3.3"	     status="Supported"/>
 	    </os>
 
 	    <os name="Solaris" hardware="SPARC" version="2.7">
@@ -47,9 +49,15 @@
 		<compiler name="GCC 3.0.4"	    status="Supported"/>
 		<compiler name="GCC 3.1.1"	    status="Supported"/>
 		<compiler name="GCC 3.2"	    status="Supported"/>
+		<compiler name="GCC 3.3"	    status="Supported"/>
 		<compiler name="GCC 3.2 w/ -m64"    status="Not Supported"  notes="64bit errors">
 		    <notes>
-			Something is wrong with the generated 64bit library. More to come soon.
+			Name resolution causes errors. Anyone want to help?
+		    </notes>
+		</compiler>
+		<compiler name="GCC 3.3 w/ -m64"    status="Not Supported"  notes="64bit errors">
+		    <notes>
+			Name resolution causes errors. Anyone want to help?
 		    </notes>
 		</compiler>
 	    </os>
@@ -66,6 +74,13 @@
 		    <notes>
 			This is a beta version of what became GCC 3.1. It contains bugs, including problems with exceptions. When
 			you throw an exception the code will continue right after the throw statment.
+		    </notes>
+		</compiler>
+		<compiler name="Apple gcc-1175"    status="Supported"	    notes="Netbuf not supported">
+		    <notes>
+			The Netxx::Netbuf is not supported with this compiler, you must use the --disable-streambuf option to the
+			configure.pl script to turn it off. Better yet, use the build/macosx/configure.sh script to configure
+			Netxx.
 		    </notes>
 		</compiler>
 	    </os>

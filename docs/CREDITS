@@ -28,6 +28,13 @@ Netxx it brought to you by the following people.
        
       + Wrote the Netxx::TLS::Certificate class.
        
+  * Steve Bannister
+   
+      + Found and fixed a bug in the Netxx::Socket class.
+       
+      + Found a bug in the Netxx::StreamBase class relating to non-blocking
+        connects.
+       
   * Isaac Foraker
    
       + Answered stupid Win32 questions.

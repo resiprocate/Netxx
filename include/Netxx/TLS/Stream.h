@@ -110,6 +110,7 @@ public:
      *
      * @param context The TLS::Context to use for this stream.
      * @param socketfd The socket file descriptor to use.
+     * @param mode Is this a TLS server or client?
      * @param timeout The Timeout to use for stream operations.
      * @author Peter Jones
     **/

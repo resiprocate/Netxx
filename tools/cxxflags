@@ -49,7 +49,7 @@ use Getopt::Long;
 #
 ################################################################################
 use constant DATE   => 'Sat Aug 18 12:09:00 2001';
-use constant ID	    => '$Id: cxxflags,v 1.14.2.2 2002/11/05 17:24:37 pjones Exp $';
+use constant ID	    => '$Id: cxxflags,v 1.14.2.3 2002/12/31 23:26:48 pjones Exp $';
 ################################################################################
 #
 # Global Variables
@@ -276,7 +276,7 @@ sub stat_compiler {
 	    my ($path, $lib) = split(/,/, $_, 2);
 	    if ($lib) {
 		$lib =~ s/^lib//;
-		$flags{'linkwith'} .= "-L'$path' -l$lib ";
+		$flags{'linkwith'} .= "-L$path -l$lib ";
 	    } else {
 		$path =~ s/^lib//;
 		$flags{'linkwith'} .= "-l$path";
@@ -287,12 +287,12 @@ sub stat_compiler {
 	    $flags{'mtlink'} .= " -pthread";
 	    $flags{'arextra'}.= "ranlib";
 	} elsif ($^O =~ /darwin/i) {
-	    $flags{'pic'} = '-shared';
+	    $flags{'pic'} = '';
 	    $flags{'shared.ext'} = '.dylib';
 	    $flags{'exec-ext'} = '';
 	    $flags{'arextra'} = "ranlib";
 	} elsif ($^O =~ /cygwin/i) {
-	    $flags{'pic'} = '-shared';
+	    $flags{'pic'} = '';
 	} else {
 	    $flags{'mtlink'} .= " -lpthread";
 	    $flags{'pic'} = '-fpic -shared';
@@ -374,7 +374,7 @@ sub stat_compiler {
 	    my ($path, $lib) = split(/,/, $_, 2);
 	    if ($lib) {
 		$lib =~ s/^lib//;
-		$flags{'linkwith'} .= "-L'$path' -l$lib ";
+		$flags{'linkwith'} .= "-L$path -l$lib ";
 	    } else {
 		$path =~ s/^lib//;
 		$flags{'linkwith'} .= "-l$path";

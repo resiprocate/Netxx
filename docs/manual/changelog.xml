@@ -1,6 +1,60 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
-    <section id="cl-030"><title>Version 0.3.1</title>
+    <section id="cl-032"><title>Version 0.3.2</title>
+	<subtitle>July 08, 2003</subtitle>
+
+	<para>
+	    Version 0.3.2 is a bug fix release.
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Fixed a bug where socket file descriptors could be leaked. Thanks goes to Steve Bannister.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a problem with building Netxx on Cygwin. Thanks goes to Sergio Ballestrero.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Updated Perl scripts to work around a bug in the Perl 5.8 regex parser. Thanks goes to Andy Chou.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a problem in the build system where Netxx could not be built on Solaris if you also wanted TLS/SSL
+		    support. Thanks goes to James Sammut.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a major bug in non-blocking connects. Thanks goes to Steve Bannister.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Updated the build script for Mac OS X (configure.sh) so that IPv6 won't cause a problem under 10.2.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Implemented missing copy constructor, assignment operator and swap functions for Netxx::Stream. Thanks to
+		    Sebastien Bellerive for finding this one.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
+    <section id="cl-031"><title>Version 0.3.1</title>
 	<subtitle>January 13, 2003</subtitle>
 
 	<para>

@@ -74,7 +74,7 @@ public:
      * Check to see if this certificate object is valid.
      *
      * @return True (1) if the certificate is valid.
-     * @reutrn False (0/NULL) if the certificate is NOT valid.
+     * @return False (0/NULL) if the certificate is NOT valid.
      * @author Peter Jones
     **/
     //####################################################################

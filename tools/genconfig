@@ -1,6 +1,6 @@
 #! /usr/bin/perl
 ######################################################################
-# Copyright (C) 2001-2002 Peter J Jones (pjones@pmade.org)
+# Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
 # All Rights Reserved
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -49,15 +49,12 @@ use Getopt::Long;
 #
 ################################################################################
 use constant DATE   => 'Tue Jan 15 16:14:25 PST 2002';
-use constant ID	    => '$Id: genconfig,v 1.3 2002/03/24 04:09:22 pjones Exp $';
+use constant ID	    => '$Id: genconfig,v 1.3.2.2 2003/04/07 20:54:18 pjones Exp $';
 ################################################################################
 #
 # Global Variables
 #
 ################################################################################
-use vars qw($VERSION);
-$VERSION = '0.0.1';
-
 my %clo;
 my $now = localtime;
 ################################################################################
@@ -74,6 +71,12 @@ GetOptions(
     'libs=s',
     'cxxflags=s',
     'name=s',
+    'desc=s',
+    'pkgconfig=s',
+    'prefix=s',
+    'bindir=s',
+    'libdir=s',
+    'incdir=s',
 ) || usage();
 $clo{'help'} && usage();
 
@@ -85,6 +88,13 @@ sub usage {
   --libs string       Encoded libs string
   --cxxflags string   Encoded cxxflags string
   --name name         The name of your program
+  --desc text         Short description of the program
+  --pkgconfig file    Generate a .pc file.
+
+  --prefix path       Path prefix
+  --bindir path       Path to bin dir
+  --libdir path       Path to lib dir
+  --incdir path       Path to include dir
 
   Strings that start with a dash should be encoded.
   To encode a string, change the dash to a caret (^).
@@ -103,6 +113,13 @@ $clo{'version'}	    ||= '0.1';
 $clo{'libs'}	    ||= '';
 $clo{'cxxflags'}    ||= '';
 $clo{'name'}	    ||= '';
+$clo{'desc'}	    ||= '';
+$clo{'pkgconfig'}   ||= '';
+
+$clo{'prefix'}	    ||= '/usr/local';
+$clo{'bindir'}	    ||= "$clo{'prefix'}/bin";
+$clo{'libdir'}	    ||= "$clo{'prefix'}/lib";
+$clo{'incdir'}	    ||= "$clo{'prefix'}/include";
 
 ($clo{'outfile'} = $clo{'output'}) =~ s/^.*\///;
 s/\^/-/g foreach ($clo{'cxxflags'}, $clo{'libs'});
@@ -162,3 +179,23 @@ EOT
 
 close(OUT);
 chmod(0755, $clo{'output'});
+
+if ($clo{'pkgconfig'}) {
+    if (!open(PC, ">$clo{'pkgconfig'}")) { die $clo{'pkgconfig'}; }
+    select(PC);
+    print <<EOT;
+prefix=$clo{'prefix'}
+exec_prefix=$clo{'bindir'}
+libdir=$clo{'libdir'}
+includedir=$clo{'incdir'}
+
+Name: $clo{'name'}
+Version: $clo{'version'}
+Description: $clo{'desc'}
+Requires:
+Libs: $clo{'libs'}
+Cflags: $clo{'cxxflags'}
+EOT
+    close(PC);
+    chmod(0644, $clo{'pkgconfig'});
+}

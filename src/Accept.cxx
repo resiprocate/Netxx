@@ -69,7 +69,7 @@ namespace Netxx {
 	sockaddr *sa = socket_address.get_sa();
 	size_type sa_size = socket_address.get_sa_size();
 
-#	if defined(WIN32) || defined(__APPLE__)
+#	if defined(WIN32) || defined(__APPLE__) || defined (__CYGWIN__)
 	    int *sa_size_ptr = reinterpret_cast<int*>(&sa_size);
 #	else
 	    size_type *sa_size_ptr = &sa_size;
