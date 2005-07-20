@@ -48,7 +48,7 @@ use Getopt::Long;
 #
 ################################################################################
 use constant DATE		=> 'Mon Sep  3 14:38:06 2001';
-use constant ID			=> '$Id: configure.pl,v 1.18 2003/01/13 17:00:49 pjones Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.1 2003/08/12 06:28:53 jason Exp $';
 ################################################################################
 #
 # Global Variables
