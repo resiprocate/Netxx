@@ -1,7 +1,7 @@
 /*
  * compat.h - Compatibility header
  * 
- * Copyright (C) 2002 Isaac W. Foraker (isaac(at)tazthecat.net)
+ * Copyright (C) 2002-2004 Isaac W. Foraker (isaac(at)tazthecat.net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without

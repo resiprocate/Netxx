@@ -1,0 +1,4 @@
+# Created: Mon Apr 26 12:52:02 MDT 2004
+SRC_FILES += "resolve_getaddrinfo.cxx" ;
+LINKLIBS  += "-lssl -lcrypto" ;
+HAVE_OPENSSL = "yes" ;

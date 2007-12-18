@@ -1,0 +1,58 @@
+####
+# standard Jamfile stuff
+TOP ?= $(DOTDOT) ;
+SubDir TOP "src" ;
+SubDirHdrs $(TOP)$(SLASH)"include" ;
+JT_UseVariant ;
+
+####
+# the source files for libnetxx
+SRC_FILES  = "accept.cxx" ;
+SRC_FILES += "address.cxx" ;
+SRC_FILES += "datagram.cxx" ;
+SRC_FILES += "datagramserver.cxx" ;
+SRC_FILES += "osutil.cxx" ;
+SRC_FILES += "peer.cxx" ;
+SRC_FILES += "probe.cxx" ;
+SRC_FILES += "probe_select.cxx" ;
+SRC_FILES += "recvfrom.cxx" ;
+SRC_FILES += "serverbase.cxx" ;
+SRC_FILES += "sockaddr.cxx" ;
+SRC_FILES += "sockopt.cxx" ;
+SRC_FILES += "socket.cxx" ;
+SRC_FILES += "stream.cxx" ;
+SRC_FILES += "streambase.cxx" ;
+SRC_FILES += "streamserver.cxx" ;
+
+if $(NT)
+{
+    # load Win32 specific stuff
+    include $(TOP)$(SLASH)"src"$(SLASH)"win32.jam" ;
+}
+else
+{
+    # load the file that configure created
+    include $(TOP)$(SLASH)"src"$(SLASH)"config.jam" ;
+
+    if $(HAVE_OPENSSL)
+    {
+	if $(OPENSSL_INC) { SubDirHdrs $(OPENSSL_INC) ;       }
+	if $(OPENSSL_LIB) { LINKFLAGS += "-L$(OPENSSL_LIB)" ; }
+    }
+}
+
+####
+# check to see if we should include TLS files
+if $(HAVE_OPENSSL) = "yes"
+{
+    SRC_FILES += "tls_certificate.cxx" ;
+    SRC_FILES += "tls_context.cxx" ;
+    SRC_FILES += "tls_stream.cxx" ;
+    SRC_FILES += "tls_tls_pimpl.cxx" ;
+}
+
+####
+# tell jam to build libnetxx
+JT_MakeLibrary libnetxx : $(SRC_FILES) ;
+
+# vim:ft=jam

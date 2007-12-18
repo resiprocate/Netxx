@@ -1,0 +1,3 @@
+# Created on: Mon Apr 26 12:52:05 MDT 2004
+LINKLIBS  += "-lssl -lcrypto" ;
+HAVE_OPENSSL = "yes" ;

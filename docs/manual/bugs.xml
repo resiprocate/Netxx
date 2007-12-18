@@ -5,18 +5,6 @@
 	please take a look at the TODO file.
     </para>
 
-    <itemizedlist><title>Unix Operating Systems</title>
-	<listitem>
-	    <para>
-		The Netxx::Address class uses gethostbyname and on most
-		unix-like operating systems that function is NOT thread
-		safe. I am currently looking at ways to get around this. I
-		know that some systems supply gethostbyname_r but not all
-		do.
-	    </para>
-	</listitem>
-    </itemizedlist>
-
     <itemizedlist><title>Microsoft Windows</title>
 	<listitem>
 	    <para>

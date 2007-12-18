@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2001-2004 Peter J Jones (pjones@pmade.org)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,13 +37,7 @@
  */
 
 // Netxx Includes
-#include <Netxx/Address.h>
-#include <Netxx/Peer.h>
-#include <Netxx/Stream.h>
-#include <Netxx/StreamServer.h>
-#include <Netxx/Timeout.h>
-#include <Netxx/Types.h>
-#include <Netxx/TLS/Stream.h>
+#include <netxx/tls/netxx.h>
 
 // Standard Includes
 #include <iostream>

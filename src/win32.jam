@@ -1,0 +1,21 @@
+C++FLAGS += "/D NETXX_NO_INET6" ;
+C++FLAGS += "/D NETXX_NO_NTOP" ;
+C++FLAGS += "/D NETXX_NO_PTON" ;
+
+SRC_FILES += "resolve_gethostbyname.cxx" ;
+SRC_FILES += "resolve_getservbyname.cxx" ;
+SRC_FILES += "inet_ntop.cxx" ;
+SRC_FILES += "inet_pton.cxx" ;
+
+####
+# build with openssl
+####
+if $(WITH_OPENSSL) = "yes"
+{
+    SubDirHdrs $(OPENSSL_INC) ;
+    LINKLIBS += $(OPENSSL_LIB)$(SLASH)"ssleay32.lib" ;
+    LINKLIBS += $(OPENSSL_LIB)$(SLASH)"libeay32.lib" ;
+    HAVE_OPENSSL = "yes" ;
+}
+
+# vim:ft=jam

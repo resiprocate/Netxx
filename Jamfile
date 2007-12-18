@@ -1,0 +1,7 @@
+####
+# standard top Jamfile stuff
+TOP ?= $(DOT) ;
+SubInclude TOP "src" ;
+SubInclude TOP "examples" ;
+
+# vim:ft=jam

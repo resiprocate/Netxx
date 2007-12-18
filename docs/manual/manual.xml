@@ -1,12 +1,5 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
-<!ENTITY include-readme		SYSTEM "readme.xml">
-<!ENTITY include-bugs		SYSTEM "bugs.xml">
-<!ENTITY include-changelog	SYSTEM "changelog.xml">
-<!ENTITY include-credits	SYSTEM "credits.xml">
-<!ENTITY include-todo		SYSTEM "todo.xml">
-<!ENTITY include-getstarted	SYSTEM "get_started.xml">
-]>
-<book id="index">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book id="index" xmlns:xi="http://www.w3.org/2001/XInclude">
     <bookinfo>
 	<title>Netxx Developers Manual</title>
 
@@ -25,6 +18,7 @@
 	<copyright>
 	    <year>2002</year>
 	    <year>2003</year>
+	    <year>2004</year>
 	    <holder>Peter Jones (http://pmade.org/pjones/)</holder>
 	</copyright>
 
@@ -84,15 +78,15 @@
 
 	    <para>
 		The latest version of this manual can be found at
-		<ulink url="http://pmade.org/pjones/software/netxx/">http://pmade.org/pjones/software/netxx/</ulink>.
+		<ulink url="http://pmade.org/software/netxx/">http://pmade.org/software/netxx/</ulink>.
 	    </para>
 	</abstract>
     </bookinfo>
 
-    &include-readme;
-    &include-getstarted;
-    &include-todo;
-    &include-bugs;
-    &include-changelog;
-    &include-credits;
+    <xi:include href="readme.xml"/>
+    <xi:include href="get_started.xml"/>
+    <xi:include href="todo.xml"/>
+    <xi:include href="bugs.xml"/>
+    <xi:include href="changelog.xml"/>
+    <xi:include href="credits.xml"/>
 </book>

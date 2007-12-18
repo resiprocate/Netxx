@@ -2,56 +2,101 @@
     <!-- ################################################################### -->
     <section id="build"><title>Building Netxx</title>
 	<para>
-	    The following instructions will show you how to compile Netxx on most platforms.
+	    The following instructions will show you how to compile Netxx on most platforms. 
 	</para>
 
 	<!-- ################################################################### -->
-	<section id="build-unix"><title>Building on Unix</title>
+	<section id="build-jam"><title>Using Boost.Jam</title>
 	    <para>
-		To build Netxx from the command line of a Unix-like operating system you use the <filename>configure.pl</filename>
-		perl script. There are various command line options that can be given to <filename>configure.pl</filename> to change
-		various compile time settings. You should begin by reviewing the available options by running
-		<command>./configure.pl --help</command>.
+		The Netxx build system uses Boost.Jam.  If you don't already have Boost.Jam installed, you will need to do that
+		first. The Boost.Jam download site is 
+
+		<link url="http://sourceforge.net/project/showfiles.php?group_id=7586&amp;package_id=72941">
+		    http://sourceforge.net/project/showfiles.php?group_id=7586&amp;package_id=72941
+		</link>
 	    </para>
 
 	    <para>
-		Once you know which command line options you want to give to <filename>configure.pl</filename> you can run it.
-		First, it will check your build environment to verify that you have the proper tools to build Netxx. After that, it will
-		generate the make-files for your system. When <filename>configure.pl</filename> is done you can run the
-		<command>make</command> program to build Netxx.
+		By default, the Netxx build system will build a debugging version of Netxx. If you want to build a release version
+		(one with optimizations and no debugging symbols) you can use the <constant>--release</constant> flag to
+		<command>jam</command>.
+	    </para>
+
+	    <example><title>Building the Release Variant</title>
+		<screen>jam --release</screen>
+	    </example>
+
+	    <para>
+		Object files, libraries and executables are built into a release variant directory. For debug builds, they are
+		placed into a directory called <filename>debug</filename>. For release builds, everything will be built into the
+		<filename>release</filename> directory.
 	    </para>
 
 	    <para>
-		After Netxx is built, you can install the library and header files. This is done with the <command>make</command>
-		program and the <constant>install</constant> target.
+		If OpenSSL is installed into a non-standard directory, you may need to set the <constant>OPENSSL_INC</constant>
+		and <constant>OPENSSL_LIB</constant> environment variables so that the Netxx build system knows where they are.
 	    </para>
 	</section>
 	<!-- ################################################################### -->
-	<section id="build-maxosx"><title>Building on MacOS X</title>
+	<section id="build-unix"><title>Building on Unix</title>
 	    <para>
-		Building Netxx on MacOS X is similar to building it on Unix. You can follow the instructions for building on Unix if
-		you wish. Either way, you need to install the Developer Tools from Apple.
+		To build Netxx from the command line of a Unix-like operating system you use the <filename>configure</filename>
+		shell script. Running this script will test your environment and create some Jamfiles.
 	    </para>
 
 	    <para>
-		There is a shell script in <filename>build/macosx</filename> called <filename>configure.sh</filename>. When you run
-		that script the <filename>configure.pl</filename> perl script will be run with some good default values. After it is
-		finished, you can build Netxx using the <command>make</command> program.
+		After you run the <filename>configure</filename> script, you can run <command>jam</command> to build Netxx.
 	    </para>
+
+	    <example><title>Building Netxx on AIX</title>
+		<para>
+		    Here is an example build of Netxx on AIX.
+		</para>
+
+		<screen>env CC=gcc OPENSSL_INC=/usr/local/include OPENSSL_LIB=/usr/local/lib ./configure</screen>
+		<screen>env CC=gcc OPENSSL_INC=/usr/local/include OPENSSL_LIB=/usr/local/lib jam --release</screen>
+	    </example>
 	</section>
 	<!-- ################################################################### -->
 	<section id="build-win"><title>Building on Windows</title>
 	    <para>
-		The following instructions apply to users of Microsoft Visual Studio. If you want to build Netxx under cygwin, follow
-		the directions for building on Unix.
+		To build Netxx Windows, you first need to set up your environment for jam. If you will be compiling Netxx with
+		Microsoft Visual Studio .NET, you can use the <filename>build\msvc7.bat</filename> batch file.
 	    </para>
 
+	    <example><title>Environment Setup for MSVC7</title>
+		<para>
+		    Open a CMD.EXE window, <command>cd</command> to the Netxx directory, and run the following commands.
+		</para>
+
+		<screen>build\msvc7.bat</screen>
+		<screen>jam</screen>
+	    </example>
+
 	    <para>
-		There is a MSVC workspace file in <filename>build/msvc</filename> that can be used to build Netxx on Windows. Open the
-		<filename>Netxx.dsw</filename> workspace file. Once the workspace is loaded, pull down the <guimenu>Build</guimenu>
-		menu and choose the <guimenuitem>Batch Build...</guimenuitem> menu item. A dialog box will appear, click the
-		<guibutton>Rebuild All</guibutton> button.
+		Once your environment is set up, you can use <command>jam</command> to build Netxx. If you would like TLS support,
+		you must first build OpenSSL. Then you can tell the Netxx to build in support for TLS.
 	    </para>
+
+	    <example><title>Building with TLS Support</title>
+		<para>
+		    For this example, we will assume that you installed the OpenSSL header files in
+		    <filename>c:\openssl\include</filename> and the OpenSSL libraries in <filename>c:\openssl\lib</filename>.
+		</para>
+
+		<screen>build\msvc7.bat</screen>
+		<screen>jam -sWITH_OPENSSL=yes -sOPENSSL_INC=c:\openssl\include -sOPENSSL_LIB=c:\openssl\lib</screen>
+
+		<para>
+		    You can also set these variables in your environment.
+		</para>
+
+		<screen>build\msvc7.bat</screen>
+		<screen>set WITH_OPENSSL=yes</screen>
+		<screen>set OPENSSL_INC=c:\openssl\include</screen>
+		<screen>set OPENSSL_LIB=c:\openssl\lib</screen>
+		<screen>jam</screen>
+	    </example>
 	</section>
 	<!-- ################################################################### -->
     </section>
@@ -63,28 +108,8 @@
 	</para>
 
 	<para>
-	    For complete API reference, you should take a look at the class reference appendix of the Netxx manual or the doxygen
-	    generated web pages. Even with these resources, the best place to hang out is in the Netxx header files.
-	</para>
-    </section>
-    <!-- ################################################################### -->
-    <section id="link"><title>Linking with Netxx</title>
-	<para>
-	    At some point you are going to need to link with the Netxx library. If you are on a Unix-like operating system you can
-	    use the <filename>Netxx-config</filename> shell script. This script can be used to give command line options to your
-	    compiler and linker.
-	</para>
-
-	<para>
-	    It also provides a way to abstract yourself from the operating system. Some operating systems require you to link
-	    TCP/IP enabled applications with a socket library. The <filename>Netxx-config</filename> script will automatically supply
-	    the correct libraries to the linker, including the OpenSSL library if necessary.
-	</para>
-
-	<para>
-	    The <filename>Netxx-config</filename> script can also be helpful to figure out the version of the installed Netxx
-	    library. There is also a little hint in the version string, if it ends with <constant>-TLS</constant> you know it is
-	    safe to use the Netxx::TLS interface on this platform.
+	    For complete API reference, you should take a look at the doxygen generated web pages. Even with these resources, the
+	    best place to hang out is in the Netxx header files.
 	</para>
     </section>
     <!-- ################################################################### -->

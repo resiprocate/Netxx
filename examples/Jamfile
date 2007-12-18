@@ -1,0 +1,56 @@
+####
+# standard Jamfile stuff
+####
+TOP ?= $(DOTDOT) ;
+SubDir TOP "examples" ;
+SubDirHdrs $(TOP)$(SLASH)"include" ;
+JT_UseVariant ;
+
+####
+# suck in the configure generate file
+####
+if $(UNIX)
+{
+    include $(TOP)$(SLASH)"examples"$(SLASH)"config.jam" ;
+}
+
+####
+# suck in a file for Win32
+####
+if $(NT)
+{
+    include $(TOP)$(SLASH)"examples"$(SLASH)"win32.jam" ;
+}
+
+####
+# Helper rule for building examples
+####
+rule Build_Example
+{
+    local image = $(1:S=) ;
+    Main $(image) : $(1) ;
+    JT_UseLibrary $(image) : libnetxx : TOP "src" ;
+}
+
+Build_Example http_get.cxx ;
+Build_Example multi_server.cxx ;
+Build_Example streambuf_echo_client.cxx ;
+Build_Example tcp_daytime_client.cxx ;
+Build_Example tcp_echo_client.cxx ;
+Build_Example tcp_echo_server.cxx ;
+Build_Example udp_daytime_client.cxx ;
+Build_Example udp_echo_client.cxx ;
+Build_Example udp_echo_server.cxx ;
+
+####
+# stuff that can only be built with OpenSSL
+####
+if $(HAVE_OPENSSL) = "yes"
+{
+    Build_Example http_https_server.cxx ;
+    Build_Example https_get.cxx ;
+    Build_Example tls_echo_client.cxx ;
+    Build_Example tls_echo_server.cxx ;
+}
+
+# vim:ft=jam

@@ -1,0 +1,234 @@
+######################################################################
+# Copyright (C) 2003-2004 Peter J Jones (pjones@pmade.org)
+# All Rights Reserved
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in
+#    the documentation and/or other materials provided with the
+#    distribution.
+# 3. Neither the name of the Author nor the names of its contributors
+#    may be used to endorse or promote products derived from this software
+#    without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+# PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR
+# OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+# AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+################################################################################
+#
+# This file is part of the Jamtools project.
+#
+# http://cvs.pmade.org/view/
+#
+# $Id: Jamrules,v 1.12 2004/04/06 17:59:56 pjones Exp $
+# $Name:  $
+#
+################################################################################
+
+####
+# Make sure that we are using Boost.Jam
+####
+if ! $(JAM_VERSION)
+{
+    ECHO "Sorry, this build requires Boost.Jam. You can download Boost.Jam" ;
+    ECHO "by using the Download link on http://boost.org/" ;
+    EXIT ;
+}
+
+####
+# Make sure we were not invoked as bjam
+####
+if [ MATCH .*(bjam).* : $(ARGV[1]:BL) ]
+{
+    ECHO "Please don't invoke Boost.Jam as `bjam', use `jam' instead." ;
+    EXIT ;
+}
+
+####
+# Having BOOST_ROOT set will break stuff.
+####
+if $(BOOST_ROOT)
+{
+    ECHO "Sorry, you can't build this project if you have BOOST_ROOT set because" ;
+    ECHO "it prevents Boost.Jam from loading the correct Jambase." ;
+    EXIT ;
+}
+
+###
+# Teach Jam what .cxx files are
+###
+rule UserObject 
+{
+    switch $(>)
+    {
+	case *.cxx  : C++ $(<) : $(>) ;
+    }
+}
+
+################################################################################
+#
+# General Compiler Settings
+#
+################################################################################
+
+####
+# fix a problem in Jambase with regards to GCC
+####
+if $(C++) = "gcc" || $(C++) = "cc"
+{
+    C++ = "g++" ;
+    LINK = $(C++) ;
+}
+
+####
+# fix Jambase for Darwin
+####
+if $(OSFULL[1]:L) = "macosxppc"
+{
+    C++  = "c++" ;
+    LINK = $(C++) ;
+}
+
+####
+# set some good default compiler flags for GCC
+####
+if $(C++) = "g++" || $(C++) = "c++"
+{
+    C++FLAGS = -Wall -W -Wcast-align -Wwrite-strings ;
+    C++FLAGS += -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS ;
+    LINKFLAGS = $(C++FLAGS) ;
+}
+
+####
+# set some good compiler flags for MSVC
+####
+if $(JAM_TOOLSET) = "VC7" || $(JAM_TOOLSET) = "VISUALC"
+{
+    AR = "$(AR) /nologo" ;
+
+    C++FLAGS += "/D WIN32" ;
+    C++FLAGS += "/EHsc" ;
+    C++FLAGS += "/MD" ;
+    C++FLAGS += "/W1" ;
+
+    LINKFLAGS += "/NODEFAULTLIB:LIBC" ;
+}
+
+################################################################################
+#
+# Build variants
+#
+################################################################################
+if --release in $(ARGV)
+{
+    ECHO "+---------------------------------------------------------+" ;
+    ECHO "|                    Release Build                        |" ;
+    ECHO "+---------------------------------------------------------+" ;
+
+    BUILD_VARIANT = "release" ;
+
+    ####
+    # add release flags for GCC
+    ####
+    if $(C++) = "g++" || $(C++) = "c++"
+    {
+	C++FLAGS += "-O2" ;
+	C++FLAGS += "-DNDEBUG" ;
+    }
+    
+    ####
+    # add release flags for MSVC
+    ####
+    if $(JAM_TOOLSET) = "VC7" || $(JAM_TOOLSET) = "VISUALC"
+    {
+	C++FLAGS += "/O2 /GB" ;
+	C++FLAGS += "/D NDEBUG" ;
+    }
+}
+else 
+{
+    ECHO "+---------------------------------------------------------+" ;
+    ECHO "|                    Debug Build                          |" ;
+    ECHO "+---------------------------------------------------------+" ;
+
+    BUILD_VARIANT = "debug" ;
+
+    ####
+    # add debug flags for GCC
+    ####
+    if $(C++) = "g++" || $(C++) = "c++"
+    {
+	C++FLAGS += "-g" ;
+    }
+    
+    ####
+    # add debug flags for MSVC
+    ####
+    if $(JAM_TOOLSET) = "VC7" || $(JAM_TOOLSET) = "VISUALC"
+    {
+	C++FLAGS += "/Od /Zi" ;
+	LINKFLAGS += "/DEBUG" ;
+    }
+}
+
+################################################################################
+#
+# Rules
+#
+################################################################################
+
+####
+# Help adjust LOCATE_TARGET
+####
+rule JT_UseVariant
+{
+    LOCATE_TARGET = $(LOCATE_TARGET)$(SLASH)$(BUILD_VARIANT) ;
+}
+
+####
+# Build a library that will be used in other parts of the project.
+# Same syntax as the Jambase Library rule.
+####
+rule JT_MakeLibrary
+{
+    Library $(1) : $(2) ;
+    JT_Made_$(SUBDIR)$(1) = "yes" ;
+}
+
+####
+# Help link with a built library. The library you want to link with must
+# have been built with JT_MakeLibrary.
+#
+# <image> : <library> : <path>
+#
+####
+rule JT_UseLibrary
+{
+    local library_directory = [ FDirName $($(3[1])) $(3[2-]) ] ;
+
+    if $(JT_Made_$(library_directory)$(2)) = "yes"
+    {
+	LinkLibraries $(1) : $(2) ;
+    }
+    else
+    {
+	LinkLibraries $(1) : $(library_directory)$(SLASH)$(BUILD_VARIANT)$(SLASH)$(2) ;
+    }
+}
+
+# vim:ft=jam

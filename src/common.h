@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2001-2004 Peter J Jones (pjones@pmade.org)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,10 +34,35 @@
  * This file contains common stuff needed by Netxx.
 **/
 
-#ifndef _Netxx_common_h_
-#define _Netxx_common_h_
+#ifndef _netxx_common_h_
+#define _netxx_common_h_
 
 #include "compat.h"
-#include "inet6.h"
+#include "osutil.h"
+
+#if defined(NETXX_NO_NTOP)
+# include "inet_ntop.h"
+#endif
+
+#if defined(NETXX_NO_PTON)
+# include "inet_pton.h"
+#endif
+
+#ifndef AF_LOCAL
+# define AF_LOCAL AF_UNIX
+#endif
+
+#ifndef PF_LOCAL
+# define PF_LOCAL PF_UNIX
+#endif
+
+#ifndef INET_ADDRSTRLEN
+# define INET_ADDRSTRLEN 16
+#endif
+
+#ifndef INADDR_NONE
+# define INADDR_NONE static_cast<unsigned long>(-1)
+#endif
+
 
 #endif

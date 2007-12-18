@@ -1,5 +1,113 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
+    <section id="cl-041"><title>Version 0.4.1</title>
+	<subtitle>April 07, 2004</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Improvements to the build system. Better testing for the correct version/flavor of Jam. On Windows, /MD will
+		    be used instead of /MT for better compatibility.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Build system and the <filename>configure</filename> script will now use <constant>NETXX_JAM</constant> when
+		    invoking Jam. Either have Jam in your <constant>PATH</constant> or set <constant>NETXX_JAM</constant> to the
+		    full path to Jam.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added the <constant>OPENSSL_INC</constant> and <constant>OPENSSL_LIB</constant> variables so users can tell
+		    the build system where OpenSSL headers and libraries are, in case they are not in standard directories.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added support for AIX 5.2.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Removed some preprocessor magic and abstracted a few types to make porting to other operating systems much
+		    easier.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
+    <section id="cl-040"><title>Version 0.4.0</title>
+	<subtitle>February 06, 2004</subtitle>
+
+	<para>
+	    Version 0.4.0 is another big step forward for Netxx. Unfortunately, this version is not backwards compatible with other
+	    versions of Netxx. On the positive side, Netxx will now be much easier to maintain, especially for multiple platforms.
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Netxx no longer uses the <filename>configure.pl</filename> Perl script and <command>make</command> combo. We
+		    had lots of complaints about the build system, and we did not like it either. The new build system is based on
+		    Boost.Jam, therefore we traded the Perl dependency for Jam. This is a very good trade off though.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Because of the above change, platform specific project files have been removed. They are no longer necessary.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    All header and source files have been renamed so that they are all lowercase. The names of the classes have
+		    not changed.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    If your platform supports getaddrinfo, it will be used over gethostbyname. The getaddrinfo function is
+		    preferred over gethostbyname because it is thread-safe. Platforms that have thread-safe versions of
+		    gethostbyname will still use that function (Win32, HP-UX).
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a problem that prevented non-blocking connects on Win32 and did not correctly report the status of the
+		    connection on other platforms. Thanks goes to Ken Yee for finding this.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a bug that prevented the proper resolution of service names.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    The inet_pton and inet_ntop functions were separated into their own source files. They will now only get built
+		    on platforms that do not already have them.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Inserting a Netxx::Peer object that represents a Local Domain Socket (Unix Domain Socket) into a IOStream will
+		    now produce "local domain" instead of "AF_LOCAL".
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
     <section id="cl-032"><title>Version 0.3.2</title>
 	<subtitle>July 08, 2003</subtitle>
 

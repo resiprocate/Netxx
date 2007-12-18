@@ -1,0 +1,17 @@
+####
+# build with openssl
+####
+if $(WITH_OPENSSL) = "yes"
+{
+    LINKLIBS += $(OPENSSL_LIB)$(SLASH)"ssleay32.lib" ;
+    LINKLIBS += $(OPENSSL_LIB)$(SLASH)"libeay32.lib" ;
+
+    HAVE_OPENSSL = "yes" ;
+}
+
+####
+# must link with winsock2
+####
+LINKLIBS += "ws2_32.lib" ;
+
+# vim:ft=jam

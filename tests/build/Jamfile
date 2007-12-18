@@ -1,0 +1,41 @@
+# help test.sh out
+if $(SUFFIX_TEST)
+{
+    ECHO $(SUFOBJ) ;
+}
+
+# compile test
+if $(COMPILE_TEST)
+{
+    Objects "inet6.c" "inet_ntop.c" "inet_pton.c" "getaddrinfo.c" ;
+}
+
+# compile and link test
+if $(SOCKET_TEST) 
+{
+    if $(WITH_SOCKET_LIBS)
+    {
+	LINKLIBS += "-lsocket -lnsl" ;
+    }
+
+    Main socket : "socket.c" ;
+}
+
+# compile and link test
+if $(OPENSSL_TEST)
+{
+    OPENSSL_LIB ?= "." ;
+    OPENSSL_INC ?= "." ;
+
+    CFLAGS += "-I$(OPENSSL_INC)" ;
+    LINKLIBS += "-L$(OPENSSL_LIB) -lssl -lcrypto" ;
+
+    if $(WITH_SOCKET_LIBS)
+    {
+	LINKLIBS += "-lsocket -lnsl" ;
+    }
+
+    Main openssl : "openssl.c" ;
+}
+
+# vim:ft=jam

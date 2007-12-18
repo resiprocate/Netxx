@@ -1,6 +1,6 @@
 package harness;
 ###########################################################################
-# Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+# Copyright (C) 2001-2004 Peter J Jones (pjones@pmade.org)
 # All Rights Reserved
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@ package harness;
 ###########################################################################
 #
 # Test harness code. For generating screen output and XML output.
-# $Id: harness.pm,v 1.3 2003/01/13 17:01:32 pjones Exp $
+# $Id: harness.pm,v 1.1.1.1 2004/02/06 03:12:41 pjones Exp $
 #
 # To use:
 #
