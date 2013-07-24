@@ -1,3 +1,9 @@
+netxx (0.3.2-2) unstable; urgency=low
+
+  * copyright: add Isaac W. Foraker
+
+ -- Daniel Pocock <daniel@pocock.com.au>  Wed, 24 Jul 2013 11:38:00 +0000
+
 netxx (0.3.2-1) unstable; urgency=low
 
   * Initial import (Closes: #717725)
