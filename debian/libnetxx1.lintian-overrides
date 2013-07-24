@@ -1,0 +1,2 @@
+# legacy code, doesn't compile without -fpermissive
+libnetxx1 binary: hardening-no-fortify-functions
