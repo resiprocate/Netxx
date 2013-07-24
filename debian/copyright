@@ -5,6 +5,7 @@ Source: http://www.pmade.com/labs/index.html
 
 Files: *
 Copyright: 2001-2003, Peter J Jones
+           2002, Isaac W. Foraker <isaac@tazthecat.net>
 License: BSD
 
 Files: debian/*
