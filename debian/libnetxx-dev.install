@@ -1,0 +1,4 @@
+usr/bin
+usr/include/Netxx/*
+usr/lib/*/lib*.so
+usr/lib/*/lib*.a

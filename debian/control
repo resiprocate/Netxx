@@ -1,0 +1,28 @@
+Source: netxx
+Section: devel
+Priority: optional
+Maintainer: Daniel Pocock <daniel@pocock.com.au>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.4
+Vcs-Git: git://git.debian.org/git/collab-maint/netxx.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/netxx.git
+Homepage: http://www.pmade.com/labs/index.html
+
+Package: libnetxx
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}
+Description: C++ library for network programming
+ Netxx is a C++ network programming library. It is designed to take the
+ pain out of programming network communications applications.
+
+Package: libnetxx-dev
+Section: libdevel
+Architecture: all
+Depends: ${misc:Depends}
+Description: C++ library for network programming (development headers)
+ Netxx is a C++ network programming library. It is designed to take the
+ pain out of programming network communications applications.
+

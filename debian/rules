@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+CXXFLAGS += -fpermissive -include cstdlib -include cstring
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	./configure.pl --prefix /usr --libdir /usr/lib/$(DEB_HOST_MULTIARCH)
+
+# upstream doesn't recognise DESTDIR, must do it ourselves
+override_dh_auto_install:
+	sed -i 's!/usr!$${DESTDIR}/usr!g' Makefile
+	dh_auto_install	
+	#dh_install src/libNetxx.a /usr/lib/$(DEB_HOST_MULTIARCH)
+	#dh_install src/libNetxx.so /usr/lib/$(DEB_HOST_MULTIARCH)/libNetxx.so.1
+	#dh_link /usr/lib/$(DEB_HOST_MULTIARCH)/libNetxx.so.1 /usr/lib/$(DEB_HOST_MULTIARCH)/libNetxx.so
+
+override_dh_auto_test:
