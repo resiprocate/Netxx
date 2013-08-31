@@ -1,8 +1,9 @@
 netxx (0.3.2-2) unstable; urgency=low
 
   * copyright: add Isaac W. Foraker
+  * ensure dev package depends on binary package (Closes: #721382)
 
- -- Daniel Pocock <daniel@pocock.com.au>  Wed, 24 Jul 2013 11:38:00 +0000
+ -- Daniel Pocock <daniel@pocock.com.au>  Sat, 31 Aug 2013 10:29:41 +0200
 
 netxx (0.3.2-1) unstable; urgency=low
 
