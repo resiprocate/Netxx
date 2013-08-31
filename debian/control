@@ -21,7 +21,7 @@ Description: C++ library for network programming
 Package: libnetxx-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}, libnetxx1 (= ${binary:Version})
 Description: C++ library for network programming (development headers)
  Netxx is a C++ network programming library. It is designed to take the
  pain out of programming network communications applications.
