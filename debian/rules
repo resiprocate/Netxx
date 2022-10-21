@@ -6,7 +6,7 @@ CXXFLAGS += -fpermissive -include cstdlib -include cstring
 	dh $@ --parallel
 
 override_dh_auto_configure:
-	./configure.pl --prefix /usr --libdir /usr/lib/$(DEB_HOST_MULTIARCH)
+	/usr/bin/perl ./configure.pl --prefix /usr --libdir /usr/lib/$(DEB_HOST_MULTIARCH)
 
 # upstream doesn't recognise DESTDIR, must do it ourselves
 override_dh_auto_install:
