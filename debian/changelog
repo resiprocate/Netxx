@@ -1,7 +1,7 @@
 netxx (0.3.2-2~bpo11+1) unstable; urgency=low
 
   * reconstructed repository from upstream and reSIProcate history
-  * debian/rules: explicitly use perl for configure.pl
+  * adapt for CMake
 
  -- Daniel Pocock <daniel@pocock.com.au>  Fri, 21 Oct 2022 15:20:51 +0100
 
