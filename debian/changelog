@@ -1,3 +1,10 @@
+netxx (0.3.2-2~bpo11+1) unstable; urgency=low
+
+  * reconstructed repository from upstream and reSIProcate history
+  * debian/rules: explicitly use perl for configure.pl
+
+ -- Daniel Pocock <daniel@pocock.com.au>  Fri, 21 Oct 2022 15:20:51 +0100
+
 netxx (0.3.2-2) unstable; urgency=low
 
   * copyright: add Isaac W. Foraker
