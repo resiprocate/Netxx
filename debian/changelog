@@ -1,9 +1,9 @@
-netxx (0.3.2-2~bpo11+1) unstable; urgency=low
+netxx (0.3.2+resip1-1~debify11+1) debify-bullseye; urgency=low
 
   * reconstructed repository from upstream and reSIProcate history
   * adapt for CMake
 
- -- Daniel Pocock <daniel@pocock.com.au>  Fri, 21 Oct 2022 15:20:51 +0100
+ -- Daniel Pocock <daniel@pocock.pro>  Fri, 21 Oct 2022 15:20:51 +0100
 
 netxx (0.3.2-2) unstable; urgency=low
 
