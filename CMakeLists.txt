@@ -37,6 +37,7 @@ option(ENABLE_TLS "Use OpenSSL" FALSE)
 option(BUILD_EXAMPLES "Build the examples" FALSE)
 
 if(WIN32)
+   add_definitions(-DNETXX_NO_INET6)
    set(BUILD_SHARED_LIBS_DEFAULT OFF)
 else()
    set(BUILD_SHARED_LIBS_DEFAULT ON)
